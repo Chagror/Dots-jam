@@ -78,11 +78,11 @@ public partial struct SpawnerSystem : ISystem
     {
         foreach (RefRW<EnemySpawner> spawner in SystemAPI.Query<RefRW<EnemySpawner>>())
         {
-            ProcessSpawner(ref state, spawner);
+            ProcessEnemySpawner(ref state, spawner);
         }
     }
 
-    private void ProcessSpawner(ref SystemState state, RefRW<EnemySpawner> spawner)
+    private void ProcessEnemySpawner(ref SystemState state, RefRW<EnemySpawner> spawner)
     {
         if(spawner.ValueRO.nextSpawnTime < SystemAPI.Time.ElapsedTime)
         {
