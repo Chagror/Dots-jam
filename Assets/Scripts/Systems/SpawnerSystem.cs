@@ -87,7 +87,6 @@ public partial struct SpawnerSystem : ISystem
         if(spawner.ValueRO.nextSpawnTime < SystemAPI.Time.ElapsedTime)
         {
             Entity newEntity = state.EntityManager.Instantiate(spawner.ValueRO.enemyPrefab);
-            state.EntityManager.AddComponentData(newEntity,new EnemyTag());
 
             state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(spawner.ValueRO.spawnPos));
 
