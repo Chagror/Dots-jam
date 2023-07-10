@@ -10,4 +10,6 @@ public struct EnemySpawner : IComponentData
     public float3 spawnPos;
     public float nextSpawnTime;
     public float spawnRate;
+    public float innerRadius;
+    public float outerRadius;
 }

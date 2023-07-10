@@ -88,10 +88,22 @@ public partial struct SpawnerSystem : ISystem
         {
             Entity newEntity = state.EntityManager.Instantiate(spawner.ValueRO.enemyPrefab);
 
-            state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(spawner.ValueRO.spawnPos));
+            Vector3 pos = RandomCircle(spawner.ValueRO.spawnPos, spawner.ValueRO.innerRadius, spawner.ValueRO.outerRadius);
+            state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(pos));
 
             spawner.ValueRW.nextSpawnTime = (float)SystemAPI.Time.ElapsedTime + spawner.ValueRO.spawnRate;
         }
+    }
+
+    Vector3 RandomCircle(Vector3 center, float innerRadius, float outerRadius)
+    {
+        float ang = Random.value * 360;
+        float radius = Random.Range(innerRadius, outerRadius);
+        Vector3 pos;
+        pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
+        pos.y = center.y;
+        pos.z = center.z + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
+        return pos;
     }
 }
 

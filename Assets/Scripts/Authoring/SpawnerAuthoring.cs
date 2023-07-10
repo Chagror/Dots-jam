@@ -7,6 +7,8 @@ class SpawnerAuthoring : MonoBehaviour
 {
     public GameObject prefabToSpawn;
     public float spawnRate;
+    public float innerRadius;
+    public float outerRadius;
 }
 
 class SpawnerBaker : Baker<SpawnerAuthoring>
@@ -21,7 +23,9 @@ class SpawnerBaker : Baker<SpawnerAuthoring>
             enemyPrefab = GetEntity(authoring.prefabToSpawn, TransformUsageFlags.Dynamic),
             spawnPos = authoring.transform.position,
             nextSpawnTime = 0.0f,
-            spawnRate = authoring.spawnRate
+            spawnRate = authoring.spawnRate,
+            innerRadius = authoring.innerRadius,
+            outerRadius = authoring.outerRadius
         });
     }
 }
