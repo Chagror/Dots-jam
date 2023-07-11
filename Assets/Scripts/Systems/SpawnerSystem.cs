@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Burst;
 using Unity.Transforms;
+using Unity.Mathematics;
+using Random = UnityEngine.Random;
 
 
 #region Hard to read but optimized with burst
@@ -67,28 +69,26 @@ public partial struct ProcessSpawnerJob : IJobEntity
 
 #region Easy but not optimised with burst
 
-[BurstCompile]
 public partial struct SpawnerSystem : ISystem
 {
     public void OnCreate(ref SystemState state) { }
     public void OnDestroy(ref SystemState state) { }
 
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        foreach (RefRW<EnemySpawner> spawner in SystemAPI.Query<RefRW<EnemySpawner>>())
+        foreach ((RefRW<EnemySpawner>, RefRO<LocalTransform>) spawner in SystemAPI.Query<RefRW<EnemySpawner>,RefRO<LocalTransform>>())
         {
-            ProcessEnemySpawner(ref state, spawner);
+            ProcessEnemySpawner(ref state, spawner.Item1, spawner.Item2.ValueRO.Position);
         }
     }
 
-    private void ProcessEnemySpawner(ref SystemState state, RefRW<EnemySpawner> spawner)
+    private void ProcessEnemySpawner(ref SystemState state, RefRW<EnemySpawner> spawner, float3 spawnPos)
     {
-        if(spawner.ValueRO.nextSpawnTime < SystemAPI.Time.ElapsedTime)
+        if (spawner.ValueRO.nextSpawnTime < SystemAPI.Time.ElapsedTime)
         {
             Entity newEntity = state.EntityManager.Instantiate(spawner.ValueRO.enemyPrefab);
 
-            Vector3 pos = RandomCircle(spawner.ValueRO.spawnPos, spawner.ValueRO.innerRadius, spawner.ValueRO.outerRadius);
+            Vector3 pos = RandomCircle(spawnPos, spawner.ValueRO.innerRadius, spawner.ValueRO.outerRadius);
             state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(pos));
 
             spawner.ValueRW.nextSpawnTime = (float)SystemAPI.Time.ElapsedTime + spawner.ValueRO.spawnRate;
