@@ -39,7 +39,7 @@ public partial class PlayerMovement : SystemBase
         {
             float3 dir = new float3(player.Item1.ValueRO.movement.x, 0, player.Item1.ValueRO.movement.y);
                         
-            player.Item2.ValueRW.Position += dir * player.Item1.ValueRW.speed;
+            player.Item2.ValueRW.Position += dir * player.Item1.ValueRW.speed * SystemAPI.Time.DeltaTime;
             //Debug.Log(player.Item2.ValueRW.Position);
 
             //Rotation of the player

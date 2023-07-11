@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 using Unity.Burst;
@@ -15,15 +13,16 @@ public partial struct MovementSystem : ISystem
     {
         foreach (var movingEntity in SystemAPI.Query<RefRO<MovementComponent>, RefRW<LocalTransform>>())
         {
-            Move(ref state, movingEntity);
+            Move(ref state, movingEntity, SystemAPI.Time.DeltaTime);
         }
     }
 
-    private void Move(ref SystemState state, (RefRO<MovementComponent>, RefRW<LocalTransform>) entityToMove)
+    private void Move(ref SystemState state, (RefRO<MovementComponent>, RefRW<LocalTransform>) entityToMove, float deltaTime)
     {
-        Vector3 dir = new Vector3(entityToMove.Item2.ValueRO.Position.x + entityToMove.Item1.ValueRO.dir.x * entityToMove.Item1.ValueRO.speed,
+        Vector3 dir = new Vector3(entityToMove.Item2.ValueRO.Position.x + entityToMove.Item1.ValueRO.dir.x * entityToMove.Item1.ValueRO.speed * deltaTime,
             entityToMove.Item2.ValueRO.Position.y,
-            entityToMove.Item2.ValueRO.Position.z + entityToMove.Item1.ValueRO.dir.y * entityToMove.Item1.ValueRO.speed);
+            entityToMove.Item2.ValueRO.Position.z + entityToMove.Item1.ValueRO.dir.y * entityToMove.Item1.ValueRO.speed * deltaTime);
+      
         entityToMove.Item2.ValueRW.Position = new float3(dir);
     }
 }
