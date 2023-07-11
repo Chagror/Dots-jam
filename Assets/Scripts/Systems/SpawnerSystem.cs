@@ -76,22 +76,27 @@ public partial struct SpawnerSystem : ISystem
 
     public void OnUpdate(ref SystemState state)
     {
+
+        EntityCommandBuffer ecb = new EntityCommandBuffer(Unity.Collections.Allocator.TempJob);
         foreach ((RefRW<EnemySpawner>, RefRO<LocalTransform>) spawner in SystemAPI.Query<RefRW<EnemySpawner>,RefRO<LocalTransform>>())
         {
-            ProcessEnemySpawner(ref state, spawner.Item1, spawner.Item2.ValueRO.Position);
+            ProcessEnemySpawner(ref state, spawner.Item1, spawner.Item2.ValueRO.Position, ecb);
         }
+        ecb.Playback(state.EntityManager);
+        ecb.Dispose();
     }
 
-    private void ProcessEnemySpawner(ref SystemState state, RefRW<EnemySpawner> spawner, float3 spawnPos)
+    private void ProcessEnemySpawner(ref SystemState state, RefRW<EnemySpawner> spawner, float3 spawnPos, EntityCommandBuffer ecb)
     {
         if (spawner.ValueRO.nextSpawnTime < SystemAPI.Time.ElapsedTime)
         {
             Entity newEntity = state.EntityManager.Instantiate(spawner.ValueRO.enemyPrefab);
-
+            ecb.AddComponent<EnemyTag>(newEntity);
             Vector3 pos = RandomCircle(spawnPos, spawner.ValueRO.innerRadius, spawner.ValueRO.outerRadius);
             state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(pos));
 
             spawner.ValueRW.nextSpawnTime = (float)SystemAPI.Time.ElapsedTime + spawner.ValueRO.spawnRate;
+            
         }
     }
 
