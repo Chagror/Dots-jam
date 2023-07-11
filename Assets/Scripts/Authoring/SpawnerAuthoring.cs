@@ -16,7 +16,7 @@ class SpawnerBaker : Baker<SpawnerAuthoring>
     public override void Bake(SpawnerAuthoring authoring)
     {
         var entity = GetEntity(TransformUsageFlags.None);
-        Debug.Log(entity);
+        //Debug.Log(entity);
 
         AddComponent(entity, new EnemySpawner
         {
