@@ -17,7 +17,7 @@ class PlayerSpawnerBaker : Baker<PlayerSpawnerAuthoring>
         AddComponent(entity, new PlayerSpawnerComponent
         {
             playerPrefab = GetEntity(authoring.playerPrefab, TransformUsageFlags.Dynamic),
-            spawnPos = authoring.transform.position
-        });
+            spawnPos = authoring.transform.position,
+        }) ;
     }
 }

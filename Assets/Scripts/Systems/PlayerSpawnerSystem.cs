@@ -41,5 +41,10 @@ public partial struct PlayerSpawnerSystem : ISystem
 
         spawner.ValueRW.playerEntity = playerEntity;
 
+        foreach (var playerFollower in SystemAPI.Query<RefRW<FollowEntity>>())
+        {
+            playerFollower.ValueRW.entityToFollow = playerEntity;
+        }
+
     }
 }
