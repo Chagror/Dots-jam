@@ -9,8 +9,6 @@ using Unity.Mathematics;
 [BurstCompile]
 public partial struct EnemyMovementDirSystem : ISystem 
 {
-
-
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
@@ -33,7 +31,6 @@ public partial struct EnemyMovementDirSystem : ISystem
     {
         Vector3 dir = (FindPlayer(ref state) - enemyPos);
         dir.Normalize();
-        dir *= enemy.ValueRO.speed;
 
         enemy.ValueRW.dir = new Vector2(dir.x,dir.z);
     }
