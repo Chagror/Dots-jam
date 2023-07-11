@@ -114,9 +114,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 6925893454808966732, guid: db30e087108c8ec4bb1ed7ba98bd3c80, type: 3}
-  spawnRate: 5
-  innerRadius: 5
-  outerRadius: 15
+  spawnRate: 0.2
+  innerRadius: 15
+  outerRadius: 25
 --- !u!114 &3150515021136381665
 MonoBehaviour:
   m_ObjectHideFlags: 0
