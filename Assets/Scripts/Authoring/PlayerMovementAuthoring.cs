@@ -20,7 +20,7 @@ class PlayerMovementBaker : Baker<PlayerMovementAuthoring>
         AddComponent(entity, new InputGetterComponent
         {
             movement = authoring.movement,
-            speed = 0f
+            speed = authoring.speed
         });
     }
 }

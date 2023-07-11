@@ -37,13 +37,9 @@ public partial class PlayerMovement : SystemBase
         //Search for all components together on entities and make calculus
         foreach (var player in SystemAPI.Query<RefRW<InputGetterComponent>, RefRW<LocalTransform>, RefRO<PlayerTag>>())
         {
-            Vector3 dir = new Vector3(player.Item2.ValueRO.Position.x + player.Item1.ValueRO.movement.x,
-                player.Item2.ValueRO.Position.y,
-                player.Item2.ValueRO.Position.z + player.Item1.ValueRO.movement.y);
-
-            dir.Normalize();
-            
-            player.Item2.ValueRW.Position += (float3)dir * player.Item1.ValueRW.speed;
+            float3 dir = new float3(player.Item1.ValueRO.movement.x, 0, player.Item1.ValueRO.movement.y);
+                        
+            player.Item2.ValueRW.Position += dir * player.Item1.ValueRW.speed;
             //Debug.Log(player.Item2.ValueRW.Position);
 
             //Rotation of the player

@@ -181,7 +181,7 @@ MonoBehaviour:
   movement:
     x: 0
     y: 0
-  speed: 1
+  speed: 0.2
 --- !u!114 &-3371612708191279646
 MonoBehaviour:
   m_ObjectHideFlags: 0
