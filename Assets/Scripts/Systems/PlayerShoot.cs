@@ -10,6 +10,11 @@ public partial class PlayerShoot : SystemBase
 {
     private Inputs inputs;
 
+    protected override void OnCreate()
+    {
+        inputs = new Inputs();
+    }
+
     protected override void OnStartRunning()
     {
         inputs.Enable();
@@ -18,13 +23,12 @@ public partial class PlayerShoot : SystemBase
     [BurstCompile]
     protected override void OnUpdate()
     {
-        bool shooting = inputs.BaseMap.Shoot.ReadValue<bool>();
-
+        float shooting = inputs.BaseMap.Shoot.ReadValue<float>();
 
         //Check for InputGetterComponent and set movement value
         foreach (var inputs in SystemAPI.Query<RefRW<InputGetterComponent>>())
         {
-            inputs.ValueRW.shoot = shooting;
+            inputs.ValueRW.shoot = shooting == 0 ? false : true;
         }
 
         //Search for all components together on entities and make calculus

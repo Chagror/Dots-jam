@@ -21,22 +21,18 @@ public class UISingleton : MonoBehaviour
         else { instance = this; }
     }
 
-    public void AddEnemy(int amountToAdd = 1)
-    {
-        counterEnemy += amountToAdd;
-        txt_enemyCounter.text = counterEnemy.ToString();
-    }
-
     public void SetEnemy(int newAmount)
     {
         counterEnemy = newAmount;
         txt_enemyCounter.text = counterEnemy.ToString();
     }
 
-    public void UpdateHealth(int health)
+    public void UpdateHealth(float health, float maxHealth)
     {
-        txt_health.text = health.ToString();
+        float percent = health / maxHealth;
+        float fillPercent = fillBar.localScale.x * percent;
 
-        fillBar.localScale = new Vector3(health/100, 1, 1);
+        txt_health.text = health.ToString();
+        fillBar.localScale = new Vector3 (fillPercent, 1.0f, 1.0f);
     }
 }
