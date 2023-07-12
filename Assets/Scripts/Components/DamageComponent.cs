@@ -7,4 +7,7 @@ using UnityEngine;
 public struct DamageComponent : IComponentData
 {
     public float damage; 
+    public float delayBetweenDamage;
+    public float nextTimeDamage;
+
 }

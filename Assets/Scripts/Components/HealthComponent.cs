@@ -8,4 +8,6 @@ public struct HealthComponent : IComponentData
 {
     public int maxHealth;
     public int currentHealth;
+    public float delayBetweenDamage;
+    public float nextTimeCanBeDamaged;
 }

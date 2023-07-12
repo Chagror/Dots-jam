@@ -8,7 +8,7 @@ using UnityEngine;
 public class HealthComponentAuthoring : MonoBehaviour
 {
     public int maxHealth = 100;
-    
+    public float delayBetweenDamage;
 }
 
 class HealthBaker : Baker<HealthComponentAuthoring>
@@ -20,6 +20,8 @@ class HealthBaker : Baker<HealthComponentAuthoring>
         {
             maxHealth =authoring.maxHealth,
             currentHealth =authoring.maxHealth,
+            nextTimeCanBeDamaged = 0.0f,
+            delayBetweenDamage = authoring.delayBetweenDamage,
         });
     }
 }
