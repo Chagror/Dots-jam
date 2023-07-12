@@ -21,6 +21,12 @@ public class UISingleton : MonoBehaviour
         else { instance = this; }
     }
 
+    public void AddEnemy(int amountToAdd = 1)
+    {
+        counterEnemy += amountToAdd;
+        txt_enemyCounter.text = counterEnemy.ToString();
+    }
+
     public void SetEnemy(int newAmount)
     {
         counterEnemy = newAmount;
