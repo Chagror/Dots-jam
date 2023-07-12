@@ -115,8 +115,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 6925893454808966732, guid: db30e087108c8ec4bb1ed7ba98bd3c80, type: 3}
   spawnRate: 0.01
-  innerRadius: 15
-  outerRadius: 25
+  innerRadius: 30
+  outerRadius: 50
 --- !u!114 &3150515021136381665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,7 +132,11 @@ MonoBehaviour:
   movement:
     x: 0
     y: 0
+  mousePosition:
+    x: 0
+    y: 0
   speed: 8
+  shoot: 0
 --- !u!114 &7502834659906792226
 MonoBehaviour:
   m_ObjectHideFlags: 0

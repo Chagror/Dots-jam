@@ -7,6 +7,7 @@ using UnityEngine;
 public struct InputGetterComponent : IComponentData
 {
     public float2 movement;
+    public float2 mousePosition;
     public float speed;
     public bool shoot;
 }

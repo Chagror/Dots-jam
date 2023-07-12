@@ -44,6 +44,15 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""e4a4ab58-efb4-49cb-82e4-29bdae55f2cb"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4115099b-1239-4035-9bda-83729a17a447"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +142,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         m_BaseMap = asset.FindActionMap("BaseMap", throwIfNotFound: true);
         m_BaseMap_PlayerMovement = m_BaseMap.FindAction("PlayerMovement", throwIfNotFound: true);
         m_BaseMap_Shoot = m_BaseMap.FindAction("Shoot", throwIfNotFound: true);
+        m_BaseMap_MousePosition = m_BaseMap.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,12 +206,14 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     private List<IBaseMapActions> m_BaseMapActionsCallbackInterfaces = new List<IBaseMapActions>();
     private readonly InputAction m_BaseMap_PlayerMovement;
     private readonly InputAction m_BaseMap_Shoot;
+    private readonly InputAction m_BaseMap_MousePosition;
     public struct BaseMapActions
     {
         private @Inputs m_Wrapper;
         public BaseMapActions(@Inputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @PlayerMovement => m_Wrapper.m_BaseMap_PlayerMovement;
         public InputAction @Shoot => m_Wrapper.m_BaseMap_Shoot;
+        public InputAction @MousePosition => m_Wrapper.m_BaseMap_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_BaseMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -206,6 +229,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
         }
 
         private void UnregisterCallbacks(IBaseMapActions instance)
@@ -216,6 +242,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
         }
 
         public void RemoveCallbacks(IBaseMapActions instance)
@@ -237,5 +266,6 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     {
         void OnPlayerMovement(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

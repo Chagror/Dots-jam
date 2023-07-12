@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerMovementAuthoring : MonoBehaviour
 {
     public float2 movement;
+    public float2 mousePosition;
     public float speed;
     public bool shoot;
 }
@@ -22,7 +23,8 @@ class PlayerMovementBaker : Baker<PlayerMovementAuthoring>
         {
             movement = authoring.movement,
             speed = authoring.speed,
-            shoot = authoring.shoot
+            shoot = authoring.shoot,
+            mousePosition = authoring.mousePosition
         });
     }
 }
