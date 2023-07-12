@@ -4,10 +4,14 @@ using UnityEngine; //PlayerSpawnerSystem
 using Unity.Entities;
 using Unity.Burst;
 using Unity.Transforms;
+using Unity.Collections;
 
 public partial struct PlayerSpawnerSystem : ISystem
 {
-    public void OnCreate(ref SystemState state) { }
+    public void OnCreate(ref SystemState state) 
+    {
+        
+    }
     public void OnDestroy(ref SystemState state) { }
 
     public void OnUpdate(ref SystemState state)
@@ -35,6 +39,23 @@ public partial struct PlayerSpawnerSystem : ISystem
 
     private void SpawnPlayer(ref SystemState state, RefRW<PlayerSpawnerComponent> spawner, EntityCommandBuffer ecb)
     {
+        EntityQuery enemyQuery = new EntityQueryBuilder(Allocator.Temp)
+            .WithAllRW<EnemyTag>().Build(ref state);
+
+        EntityQuery colisQuery = new EntityQueryBuilder(Allocator.Temp)
+            .WithAllRW<ColisTag>().Build(ref state);
+
+        foreach (var enemy in enemyQuery.ToEntityArray(Allocator.Temp))
+        {
+            ecb.DestroyEntity(enemy);
+        }
+
+        foreach (var colis in colisQuery.ToEntityArray(Allocator.Temp))
+        {
+            ecb.DestroyEntity(colis);
+        }
+        UISingleton.instance.SetEnemy(0);
+
         Entity playerEntity = state.EntityManager.Instantiate(spawner.ValueRO.playerPrefab);
         ecb.AddComponent<PlayerTag>(playerEntity);
         state.EntityManager.SetComponentData(playerEntity, LocalTransform.FromPosition(spawner.ValueRO.spawnPos));

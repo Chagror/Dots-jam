@@ -102,7 +102,6 @@ public partial struct ProjectileSystem : ISystem
                 // Destroy enemy if it is out of health
                 if (hp.currentHealth <= 0)
                     ECB.DestroyEntity(player);
-
             }
             
 
