@@ -9,45 +9,28 @@ using Unity.Physics;
 [BurstCompile]
 public partial struct PlayerShoot : ISystem
 {
-   
+    Inputs inputs;
 
-<<<<<<< Updated upstream
-    protected override void OnCreate()
+    public void OnCreate(ref SystemState state)
     {
         inputs = new Inputs();
     }
 
-    protected override void OnStartRunning()
-=======
-    [BurstCompile]
-    public void OnCreate(ref SystemState state)
->>>>>>> Stashed changes
+    public void OnStartRunning(ref SystemState state)
     {
         
     }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
-        
     {
-<<<<<<< Updated upstream
+        EntityCommandBuffer ecb = new EntityCommandBuffer(Unity.Collections.Allocator.TempJob);
         float shooting = inputs.BaseMap.Shoot.ReadValue<float>();
 
         //Check for InputGetterComponent and set movement value
         foreach (var inputs in SystemAPI.Query<RefRW<InputGetterComponent>>())
         {
             inputs.ValueRW.shoot = shooting == 0 ? false : true;
-=======
-        EntityCommandBuffer ecb = new EntityCommandBuffer(Unity.Collections.Allocator.TempJob);
-
-        
-        foreach (var player in SystemAPI.Query<RefRO<LocalTransform>, RefRO<PlayerTag>, RefRW<ProjectileSpawner>>())
-        {
-
-                player.Item3.ValueRW.spawnPos = player.Item1.ValueRO.Position;
-                ProcessBulletSpawner(ref state, player.Item3, player.Item1.ValueRO.Position, ecb);
-            
->>>>>>> Stashed changes
         }
         ecb.Playback(state.EntityManager);
         ecb.Dispose();

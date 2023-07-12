@@ -15,6 +15,8 @@ public class UISingleton : MonoBehaviour
     [SerializeField] private TMP_Text txt_health;
     public RectTransform fillBar;
 
+    [SerializeField] private RectTransform arrow;
+
     private void Awake()
     {
         if (instance != null) Destroy(this);
@@ -40,5 +42,11 @@ public class UISingleton : MonoBehaviour
 
         txt_health.text = health.ToString();
         fillBar.localScale = new Vector3 (fillPercent, 1.0f, 1.0f);
+    }
+
+    public void RotateColisArrow(float angle)
+    {
+        arrow.gameObject.SetActive(true);
+        arrow.eulerAngles = new Vector3(0,0,angle);
     }
 }
