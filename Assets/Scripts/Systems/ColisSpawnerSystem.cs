@@ -29,7 +29,7 @@ public partial struct ColisSpawnerSystem : ISystem
         if (spawner.ValueRO.nextSpawnTime < SystemAPI.Time.ElapsedTime)
         {
             Entity newEntity = state.EntityManager.Instantiate(spawner.ValueRO.colisPrefab);
-            //ecb.AddComponent<EnemyTag>(newEntity);
+            ecb.AddComponent<ColisTag>(newEntity);
             Vector3 pos = RandomCircle(spawnPos, spawner.ValueRO.innerRadius, spawner.ValueRO.outerRadius);
             state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(pos));
 
