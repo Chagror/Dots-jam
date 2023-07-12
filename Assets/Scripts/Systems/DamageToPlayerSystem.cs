@@ -92,12 +92,19 @@ public partial struct ProjectileSystem : ISystem
 
             // Damage player
             HealthComponent hp = Healths[player];
-            hp.currentHealth -= 5;
-            Healths[player] = hp;
-            Debug.Log("damage dealt");
-            // Destroy enemy if it is out of health
-            if (hp.currentHealth <= 0)
-                ECB.DestroyEntity(player);
+            if(hp.nextTimeCanBeDamaged <= 0)
+            {
+                hp.nextTimeCanBeDamaged = hp.delayBetweenDamage;
+
+                hp.currentHealth -= 5;
+                Healths[player] = hp;
+                Debug.Log("damage dealt");
+                // Destroy enemy if it is out of health
+                if (hp.currentHealth <= 0)
+                    ECB.DestroyEntity(player);
+
+            }
+            
 
             // Spawn VFX
             //Entity impactEntity = ECB.Instantiate(Projectiles[projectile].Prefab);
