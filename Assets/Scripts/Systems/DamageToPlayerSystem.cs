@@ -14,7 +14,7 @@ using static UnityEngine.GraphicsBuffer;
 [UpdateAfter(typeof(SpawnerSystem))]
 [UpdateAfter(typeof(PhysicsSystemGroup))]
 [BurstCompile]
-public partial struct DamageToPlayerSystem : ISystem
+public partial struct ProjectileSystem : ISystem
 {
     ComponentLookup<PlayerTag> playerLookup;
     
@@ -56,7 +56,7 @@ public partial struct DamageToPlayerSystem : ISystem
     }
 
     [BurstCompile]
-    public struct ProjectileHitJob : ITriggerEventsJob
+    public struct ProjectileHitJob : ICollisionEventsJob
     {
         [ReadOnly] public ComponentLookup<PlayerTag>Player;
         [ReadOnly] public ComponentLookup<EnemyTag> Enemies;
@@ -64,8 +64,8 @@ public partial struct DamageToPlayerSystem : ISystem
 
         public EntityCommandBuffer ECB;
 
-        
-        public void Execute(TriggerEvent triggerEvent)
+
+        public void Execute(CollisionEvent triggerEvent)
         {
             
 
