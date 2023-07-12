@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  delayBetweenDamage: 2
 --- !u!114 &-2140653265345132966
 MonoBehaviour:
   m_ObjectHideFlags: 0

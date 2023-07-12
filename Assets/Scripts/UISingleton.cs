@@ -9,6 +9,7 @@ public class UISingleton : MonoBehaviour
 {
     public static UISingleton instance { get; private set; }
     [SerializeField] private TMP_Text txt_enemyCounter;
+    [SerializeField] private TMP_Text txt_playerCounter;
     public int counterEnemy = 0;
 
     [SerializeField] private TMP_Text txt_health;
