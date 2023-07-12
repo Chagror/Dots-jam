@@ -15,6 +15,7 @@ public class BulletSpawnerAuthoring : MonoBehaviour
     public float radius;
     public int numBullets;
     public float angle;
+    
     public CollisionFilter Filter;
     public float range;
 
