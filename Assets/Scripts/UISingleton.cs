@@ -10,7 +10,9 @@ public class UISingleton : MonoBehaviour
     public static UISingleton instance { get; private set; }
     [SerializeField] private TMP_Text txt_enemyCounter;
     [SerializeField] private TMP_Text txt_playerCounter;
+    [SerializeField] private TMP_Text txt_pointsCounter;
     public int counterEnemy = 0;
+    public int pointsCounter = 0;
 
     [SerializeField] private TMP_Text txt_health;
     public RectTransform fillBar;
@@ -33,7 +35,7 @@ public class UISingleton : MonoBehaviour
     {
         counterEnemy = newAmount;
         txt_enemyCounter.text = "Enemies : " + counterEnemy.ToString();
-        txt_playerCounter.text = "Player : 4,3";
+        txt_playerCounter.text = "Player : 1";
     }
 
     public void UpdateHealth(float health, float maxHealth)
@@ -42,6 +44,23 @@ public class UISingleton : MonoBehaviour
 
         txt_health.text = health.ToString();
         fillBar.localScale = new Vector3 (percent, 1.0f, 1.0f);
+    }
+
+    public void AddPoints(int addAmount = 1)
+    {
+        pointsCounter += addAmount;
+        UpdatePoints();
+    }
+
+    public void SetPoints(int newAmount)
+    {
+        pointsCounter = newAmount;
+        UpdatePoints();
+    }
+
+    public void UpdatePoints()
+    {
+        txt_pointsCounter.text = $"Points : {pointsCounter}";
     }
 
     public void RotateColisArrow(float angle)

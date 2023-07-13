@@ -8,9 +8,15 @@ using Unity.Collections;
 
 public partial struct PlayerSpawnerSystem : ISystem
 {
+    EntityQuery enemyQuery;
+    EntityQuery colisQuery;
     public void OnCreate(ref SystemState state) 
     {
-        
+        enemyQuery = new EntityQueryBuilder(Allocator.Temp)
+            .WithAllRW<EnemyTag>().Build(ref state);
+
+        colisQuery = new EntityQueryBuilder(Allocator.Temp)
+            .WithAllRW<ColisTag>().Build(ref state);
     }
     public void OnDestroy(ref SystemState state) { }
 
@@ -39,11 +45,6 @@ public partial struct PlayerSpawnerSystem : ISystem
 
     private void SpawnPlayer(ref SystemState state, RefRW<PlayerSpawnerComponent> spawner, EntityCommandBuffer ecb)
     {
-        EntityQuery enemyQuery = new EntityQueryBuilder(Allocator.Temp)
-            .WithAllRW<EnemyTag>().Build(ref state);
-
-        EntityQuery colisQuery = new EntityQueryBuilder(Allocator.Temp)
-            .WithAllRW<ColisTag>().Build(ref state);
 
         foreach (var enemy in enemyQuery.ToEntityArray(Allocator.Temp))
         {
@@ -54,7 +55,6 @@ public partial struct PlayerSpawnerSystem : ISystem
         {
             ecb.DestroyEntity(colis);
         }
-        //UISingleton.instance.SetEnemy(0);
 
         Entity playerEntity = state.EntityManager.Instantiate(spawner.ValueRO.playerPrefab);
         ecb.AddComponent<PlayerTag>(playerEntity);
