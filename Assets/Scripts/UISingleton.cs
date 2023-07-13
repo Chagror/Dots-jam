@@ -37,11 +37,10 @@ public class UISingleton : MonoBehaviour
 
     public void UpdateHealth(float health, float maxHealth)
     {
-        float percent = health / maxHealth;
-        float fillPercent = fillBar.localScale.x * percent;
+        float percent = (float)health / (float)maxHealth;
 
         txt_health.text = health.ToString();
-        fillBar.localScale = new Vector3 (fillPercent, 1.0f, 1.0f);
+        fillBar.localScale = new Vector3 (percent, 1.0f, 1.0f);
     }
 
     public void RotateColisArrow(float angle)
