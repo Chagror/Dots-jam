@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 6925893454808966732, guid: db30e087108c8ec4bb1ed7ba98bd3c80, type: 3}
-  spawnRate: 0.01
+  spawnRate: 0.001
   innerRadius: 30
   outerRadius: 50
 --- !u!114 &3150515021136381665
@@ -365,8 +365,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 807640713647477252, guid: 641c4596d348b864e808f36238406647, type: 3}
   spawnPos: {x: 0, y: 0, z: 0}
   nextSpawnTime: 0
-  spawnRate: 1
+  spawnRate: 0.2
   radius: 1
-  numBullets: 10
-  angle: 30
+  numBullets: 30
+  angle: 45
   range: 30
