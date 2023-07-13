@@ -7,7 +7,6 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using Unity.Collections;
 
-[BurstCompile]
 public partial struct EnemyCounterSystem : ISystem
 {
     EntityQuery enemyQuery;
@@ -16,7 +15,6 @@ public partial struct EnemyCounterSystem : ISystem
         enemyQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<EnemyTag>().Build(ref state);
     }
 
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         UISingleton.instance.SetEnemy(enemyQuery.CalculateEntityCount());
