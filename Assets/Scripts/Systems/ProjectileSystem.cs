@@ -18,9 +18,9 @@ public partial struct DamageToPlayerSystem : ISystem
 {
     ComponentLookup<PlayerTag> playerLookup;
     ComponentLookup<BulletTag> bulletLookup;
-    
-    
-    
+
+    ComponentLookup<LocalTransform> localTransformLookup;
+    ComponentLookup<Impact> impactLookup;
     
     ComponentLookup<EnemyTag> enemyLookup;
 
@@ -29,9 +29,10 @@ public partial struct DamageToPlayerSystem : ISystem
     public void OnCreate(ref SystemState state) {
         playerLookup = SystemAPI.GetComponentLookup<PlayerTag>(true);
         bulletLookup = SystemAPI.GetComponentLookup<BulletTag>(true);
-
+        impactLookup = SystemAPI.GetComponentLookup<Impact>(false);
         enemyLookup = SystemAPI.GetComponentLookup<EnemyTag>(true);
         healthLookup = SystemAPI.GetComponentLookup<HealthComponent>(false);
+        localTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(false);
 
     }
     public void OnDestroy(ref SystemState state) { }
@@ -46,7 +47,8 @@ public partial struct DamageToPlayerSystem : ISystem
         enemyLookup.Update(ref state);
         healthLookup.Update(ref state);
         bulletLookup.Update(ref state);
-
+        impactLookup.Update(ref state);
+        localTransformLookup.Update(ref state);
 
         state.Dependency = new PlayerDamageHitJob()
         {
@@ -63,6 +65,8 @@ public partial struct DamageToPlayerSystem : ISystem
             Enemies = enemyLookup,
             Bullets = bulletLookup,
             Healths = healthLookup,
+            Impacts = impactLookup,
+            LocalTransforms = localTransformLookup,
             ECB = ecbBOS
         }.Schedule(simulation, state.Dependency);
     }
@@ -73,6 +77,8 @@ public partial struct DamageToPlayerSystem : ISystem
         [ReadOnly] public ComponentLookup<BulletTag> Bullets;
         [ReadOnly] public ComponentLookup<EnemyTag> Enemies;
         public ComponentLookup<HealthComponent> Healths;
+        public ComponentLookup<Impact> Impacts;
+        public ComponentLookup<LocalTransform> LocalTransforms;
 
         public EntityCommandBuffer ECB;
 
@@ -112,6 +118,9 @@ public partial struct DamageToPlayerSystem : ISystem
                 //UISingleton.instance.AddEnemy(-1);
                 ECB.DestroyEntity(enemy);
             }
+            Entity impactEntity = ECB.Instantiate(Impacts[bullet].Prefab);
+            ECB.SetComponent(impactEntity, LocalTransform.FromPosition(LocalTransforms[enemy].Position));
+
             ECB.DestroyEntity(bullet);
 
             // Spawn VFX
