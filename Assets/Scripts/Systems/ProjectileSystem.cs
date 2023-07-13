@@ -108,7 +108,10 @@ public partial struct DamageToPlayerSystem : ISystem
             Debug.Log("damage dealt");
             // Destroy enemy if it is out of health
             if (hp.currentHealth <= 0)
+            {
+                UISingleton.instance.AddEnemy(-1);
                 ECB.DestroyEntity(enemy);
+            }
 
             // Spawn VFX
             //Entity impactEntity = ECB.Instantiate(Projectiles[projectile].Prefab);
