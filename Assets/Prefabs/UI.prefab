@@ -861,8 +861,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt_enemyCounter: {fileID: 3801187960809476085}
-  txt_playerCounter: {fileID: 0}
+  txt_playerCounter: {fileID: 5437072007340752465}
   counterEnemy: 0
   txt_health: {fileID: 5587358380505613844}
   fillBar: {fileID: 2831188639751410102}
-  indicationArrow: {fileID: 0}
+  arrow: {fileID: 0}

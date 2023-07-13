@@ -29,7 +29,6 @@ public partial struct PlayerShoot : ISystem
 
         foreach (var player in SystemAPI.Query<RefRO<LocalTransform>, RefRO<PlayerTag>, RefRW<ProjectileSpawner>>())
         {
-
                 player.Item3.ValueRW.spawnPos = player.Item1.ValueRO.Position;
             playerPos = player.Item1.ValueRO.Position;
             player.Item3.ValueRW.filter = new CollisionFilter()
