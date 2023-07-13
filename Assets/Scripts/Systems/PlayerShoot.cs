@@ -37,7 +37,9 @@ public partial struct PlayerShoot : ISystem
                 BelongsTo = 0,
                 CollidesWith = 1
             };
-                ProcessBulletSpawner(ref state, player.Item3, player.Item1.ValueRO.Position, ecb);
+
+            
+                ProcessBulletSpawner(ref state, player.Item3, player.Item1.ValueRO.Position,player.Item1.ValueRO.Forward() , ecb);
             
 
         }
@@ -52,12 +54,11 @@ public partial struct PlayerShoot : ISystem
             }
 
         }
-        Debug.Log(minDist.ToString());
         ecb.Playback(state.EntityManager);
         ecb.Dispose();
     }
 
-    private void ProcessBulletSpawner(ref SystemState state, RefRW<ProjectileSpawner> spawner, float3 spawnPos, EntityCommandBuffer ecb)
+    private void ProcessBulletSpawner(ref SystemState state, RefRW<ProjectileSpawner> spawner, float3 spawnPos, float3 forward ,EntityCommandBuffer ecb)
     {
 
         ClosestHitCollector<DistanceHit> closestHitCollector = new ClosestHitCollector<DistanceHit>(spawner.ValueRO.range);
@@ -75,15 +76,17 @@ public partial struct PlayerShoot : ISystem
                 ecb.AddComponent<BulletTag>(newEntity);
                 Vector3 pos ;
 
+                float rotation = ConvertPosToAngle(forward.x, forward.z);
+
                 //pos.z = spawnPos.x + spawner.ValueRO.radius * Mathf.Sin(angleTowardsNearestEnemy );
                 //pos.y = spawnPos.y;
                 //pos.x = spawnPos.z + spawner.ValueRO.radius * Mathf.Cos(angleTowardsNearestEnemy);
 
-                pos.x = spawnPos.x + spawner.ValueRO.radius * Mathf.Sin(angleTowardsNearestEnemy - spawner.ValueRO.angle * Mathf.Deg2Rad + (2 * i * spawner.ValueRO.angle * Mathf.Deg2Rad) / spawner.ValueRO.numBullets);
+                pos.x = spawnPos.x + spawner.ValueRO.radius * Mathf.Sin( rotation  - spawner.ValueRO.angle * Mathf.Deg2Rad + (2 * i * spawner.ValueRO.angle * Mathf.Deg2Rad) / spawner.ValueRO.numBullets);
                 pos.y = spawnPos.y;
-                pos.z = spawnPos.z + spawner.ValueRO.radius * Mathf.Cos(angleTowardsNearestEnemy - spawner.ValueRO.angle * Mathf.Deg2Rad + (2 * i * spawner.ValueRO.angle * Mathf.Deg2Rad) / spawner.ValueRO.numBullets);
+                pos.z = spawnPos.z + spawner.ValueRO.radius * Mathf.Cos(rotation - spawner.ValueRO.angle * Mathf.Deg2Rad + (2 * i * spawner.ValueRO.angle * Mathf.Deg2Rad) / spawner.ValueRO.numBullets);
                 state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(pos));
-
+                
 
             }
 
@@ -100,7 +103,7 @@ public partial struct PlayerShoot : ISystem
     float ConvertPosToAngle(float x, float y)
     {
         float angle = 2*Mathf.Atan(y/(x+Mathf.Sqrt(x*x+y*y ))) ;
-        return angle;
+        return Mathf.PI/2 -angle;
     }
 
     float Distance( float3 a, float3 b)
