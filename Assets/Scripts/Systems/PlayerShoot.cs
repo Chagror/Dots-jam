@@ -10,24 +10,13 @@ using Unity.Physics;
 public partial struct PlayerShoot : ISystem
 {
 
-    Inputs inputs;
-
-    public void OnCreate(ref SystemState state)
-    {
-        inputs = new Inputs();
-    }
+    
 
 
 
     private float3 playerPos;
     private float3 ClosestEnemyPos;
     private float minDist;
-    [BurstCompile]
-    public void OnCreate(ref SystemState state)
-
-    {
-        
-    }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
@@ -86,16 +75,16 @@ public partial struct PlayerShoot : ISystem
                 ecb.AddComponent<BulletTag>(newEntity);
                 Vector3 pos ;
 
-                pos.z = spawnPos.x + spawner.ValueRO.radius * Mathf.Sin(angleTowardsNearestEnemy );
-                pos.y = spawnPos.y;
-                pos.x = spawnPos.z + spawner.ValueRO.radius * Mathf.Cos(angleTowardsNearestEnemy);
-
-                //pos.x = spawnPos.x + spawner.ValueRO.radius * Mathf.Sin(angleTowardsNearestEnemy - spawner.ValueRO.angle * Mathf.Deg2Rad + (2 * i * spawner.ValueRO.angle * Mathf.Deg2Rad) / spawner.ValueRO.numBullets);
+                //pos.z = spawnPos.x + spawner.ValueRO.radius * Mathf.Sin(angleTowardsNearestEnemy );
                 //pos.y = spawnPos.y;
-                //pos.z = spawnPos.z + spawner.ValueRO.radius * Mathf.Cos(angleTowardsNearestEnemy - spawner.ValueRO.angle * Mathf.Deg2Rad + (2 * i * spawner.ValueRO.angle * Mathf.Deg2Rad) / spawner.ValueRO.numBullets);
+                //pos.x = spawnPos.z + spawner.ValueRO.radius * Mathf.Cos(angleTowardsNearestEnemy);
+
+                pos.x = spawnPos.x + spawner.ValueRO.radius * Mathf.Sin(angleTowardsNearestEnemy - spawner.ValueRO.angle * Mathf.Deg2Rad + (2 * i * spawner.ValueRO.angle * Mathf.Deg2Rad) / spawner.ValueRO.numBullets);
+                pos.y = spawnPos.y;
+                pos.z = spawnPos.z + spawner.ValueRO.radius * Mathf.Cos(angleTowardsNearestEnemy - spawner.ValueRO.angle * Mathf.Deg2Rad + (2 * i * spawner.ValueRO.angle * Mathf.Deg2Rad) / spawner.ValueRO.numBullets);
                 state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(pos));
-                
-                
+
+
             }
 
 
