@@ -34,7 +34,7 @@ public partial struct ColisSpawnerSystem : ISystem
             state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(pos));
 
             spawner.ValueRW.nextSpawnTime = (float)SystemAPI.Time.ElapsedTime + spawner.ValueRO.spawnRate;
-            UISingleton.instance.AddEnemy(1);
+            //UISingleton.instance.AddEnemy(1);
         }
     }
 
