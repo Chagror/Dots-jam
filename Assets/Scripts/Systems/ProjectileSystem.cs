@@ -21,9 +21,8 @@ public partial struct DamageToPlayerSystem : ISystem
 
     ComponentLookup<LocalTransform> localTransformLookup;
     ComponentLookup<Impact> impactLookup;
-    
     ComponentLookup<EnemyTag> enemyLookup;
-
+    ComponentLookup<ColisTag> colisLookup;
     ComponentLookup<HealthComponent> healthLookup;
 
     public void OnCreate(ref SystemState state) {
@@ -33,6 +32,7 @@ public partial struct DamageToPlayerSystem : ISystem
         enemyLookup = SystemAPI.GetComponentLookup<EnemyTag>(true);
         healthLookup = SystemAPI.GetComponentLookup<HealthComponent>(false);
         localTransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(false);
+        colisLookup = SystemAPI.GetComponentLookup<ColisTag>(false);
 
     }
     public void OnDestroy(ref SystemState state) { }
@@ -49,6 +49,7 @@ public partial struct DamageToPlayerSystem : ISystem
         bulletLookup.Update(ref state);
         impactLookup.Update(ref state);
         localTransformLookup.Update(ref state);
+        colisLookup.Update(ref state);
 
         state.Dependency = new PlayerDamageHitJob()
         {
@@ -69,7 +70,56 @@ public partial struct DamageToPlayerSystem : ISystem
             LocalTransforms = localTransformLookup,
             ECB = ecbBOS
         }.Schedule(simulation, state.Dependency);
+
+        state.Dependency = new ColisHitJob()
+        {
+            Colis = colisLookup
+            ,
+            Players = playerLookup
+            ,
+            ECB = ecbBOS
+        }.Schedule(simulation, state.Dependency);
     }
+
+
+    public struct ColisHitJob : ICollisionEventsJob
+    {
+        [ReadOnly] public ComponentLookup<ColisTag> Colis;
+        [ReadOnly] public ComponentLookup<PlayerTag> Players;
+        public EntityCommandBuffer ECB;
+
+        public void Execute(CollisionEvent triggerEvent)
+        {
+
+
+            Entity colis = Entity.Null;
+            Entity player = Entity.Null;
+
+            // Identiy which entity is which
+            if (Colis.HasComponent(triggerEvent.EntityA))
+                colis = triggerEvent.EntityA;
+            if (Colis.HasComponent(triggerEvent.EntityB))
+                colis = triggerEvent.EntityB;
+            if (Players.HasComponent(triggerEvent.EntityA))
+                player = triggerEvent.EntityA;
+            if (Players.HasComponent(triggerEvent.EntityB))
+                player = triggerEvent.EntityB;
+
+            // if its a pair of entity we don't want to process, exit
+            if (Entity.Null.Equals(colis)
+                || Entity.Null.Equals(player)) return;
+
+
+
+
+
+
+
+            ECB.DestroyEntity(colis);
+        }
+
+    }
+
 
     [BurstCompile]
     public struct ProjectileHitJob : ITriggerEventsJob
