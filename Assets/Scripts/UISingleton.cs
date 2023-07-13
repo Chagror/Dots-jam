@@ -46,7 +46,7 @@ public class UISingleton : MonoBehaviour
 
     public void RotateColisArrow(float angle)
     {
-        arrow.gameObject.SetActive(true);
-        arrow.eulerAngles = new Vector3(0,0,angle);
+        //arrow.gameObject.SetActive(true);
+        //arrow.eulerAngles = new Vector3(0,0,angle);
     }
 }
