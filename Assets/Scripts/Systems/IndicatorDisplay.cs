@@ -24,8 +24,8 @@ public partial struct IndicatorDisplay : ISystem
             playerEntity = player;
         }
 
-        if (colisEntity.Item2.ValueRO.IsUnityNull())
-            return;
+        //if (colisEntity.Item2.ValueRO.IsUnityNull())
+            //return;
 
         //UISingleton.instance.RotateColisArrow(DistanceBetweenEntity(colisEntity, playerEntity));
     }
