@@ -33,6 +33,7 @@ public class UISingleton : MonoBehaviour
     {
         counterEnemy = newAmount;
         txt_enemyCounter.text = "Enemies : " + counterEnemy.ToString();
+        txt_playerCounter.text = "Player : 4,3";
     }
 
     public void UpdateHealth(float health, float maxHealth)
