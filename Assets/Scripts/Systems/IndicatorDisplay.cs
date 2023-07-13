@@ -27,7 +27,7 @@ public partial struct IndicatorDisplay : ISystem
         if (colisEntity.Item2.ValueRO.IsUnityNull())
             return;
 
-        UISingleton.instance.RotateColisArrow(DistanceBetweenEntity(colisEntity, playerEntity));
+        //UISingleton.instance.RotateColisArrow(DistanceBetweenEntity(colisEntity, playerEntity));
     }
 
     private float DistanceBetweenEntity((RefRW<LocalTransform>, RefRO<ColisTag>) entity1, (RefRW<LocalTransform>, RefRO<PlayerTag>) entity2)
