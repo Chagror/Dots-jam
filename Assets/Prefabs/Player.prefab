@@ -349,7 +349,7 @@ MonoBehaviour:
   prefabToSpawn: {fileID: 7014258820479003038, guid: 9ca149c2da60f384789b3e4c89e055be, type: 3}
   spawnRate: 5
   innerRadius: 10
-  outerRadius: 20
+  outerRadius: 50
 --- !u!114 &5777663788989473425
 MonoBehaviour:
   m_ObjectHideFlags: 0
