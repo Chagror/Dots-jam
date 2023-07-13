@@ -26,13 +26,13 @@ public class UISingleton : MonoBehaviour
     public void AddEnemy(int amountToAdd = 1)
     {
         counterEnemy += amountToAdd;
-        txt_enemyCounter.text = counterEnemy.ToString();
+        txt_enemyCounter.text = "Enemies : " + counterEnemy.ToString();
     }
 
     public void SetEnemy(int newAmount)
     {
         counterEnemy = newAmount;
-        txt_enemyCounter.text = counterEnemy.ToString();
+        txt_enemyCounter.text = "Enemies : " + counterEnemy.ToString();
     }
 
     public void UpdateHealth(float health, float maxHealth)
