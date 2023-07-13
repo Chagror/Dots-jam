@@ -6,10 +6,20 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Random = UnityEngine.Random;
 using UnityEngine;
+using Unity.Collections;
 
 public partial struct ColisSpawnerSystem : ISystem
 {
-    public void OnCreate(ref SystemState state) { }
+
+    EntityQuery numberOfColis;
+
+    public static int totalColisSpawned;
+    public void OnCreate(ref SystemState state) {
+
+        totalColisSpawned = 0;
+
+        numberOfColis = new EntityQueryBuilder(Allocator.Temp).WithAll<ColisTag>().Build(ref state);
+    }
     public void OnDestroy(ref SystemState state) { }
 
     public void OnUpdate(ref SystemState state)
@@ -20,6 +30,7 @@ public partial struct ColisSpawnerSystem : ISystem
         {
             ProcessEnemySpawner(ref state, spawner.Item1, spawner.Item2.ValueRO.Position, ecb);
         }
+        UISingleton.instance.SetPoints(totalColisSpawned - numberOfColis.CalculateEntityCount());
         ecb.Playback(state.EntityManager);
         ecb.Dispose();
     }
@@ -34,7 +45,7 @@ public partial struct ColisSpawnerSystem : ISystem
             state.EntityManager.SetComponentData(newEntity, LocalTransform.FromPosition(pos));
 
             spawner.ValueRW.nextSpawnTime = (float)SystemAPI.Time.ElapsedTime + spawner.ValueRO.spawnRate;
-            //UISingleton.instance.AddEnemy(1);
+            totalColisSpawned++;
         }
     }
 

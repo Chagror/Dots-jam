@@ -55,7 +55,7 @@ public partial struct PlayerSpawnerSystem : ISystem
         {
             ecb.DestroyEntity(colis);
         }
-
+        ColisSpawnerSystem.totalColisSpawned = 0;
         UISingleton.instance.SetPoints(0);
 
         Entity playerEntity = state.EntityManager.Instantiate(spawner.ValueRO.playerPrefab);
