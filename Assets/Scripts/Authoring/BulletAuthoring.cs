@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Entities;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 [DisallowMultipleComponent]
