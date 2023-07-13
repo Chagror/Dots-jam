@@ -108,13 +108,6 @@ public partial struct DamageToPlayerSystem : ISystem
             // if its a pair of entity we don't want to process, exit
             if (Entity.Null.Equals(colis)
                 || Entity.Null.Equals(player)) return;
-
-
-
-
-
-
-
             ECB.DestroyEntity(colis);
         }
 
