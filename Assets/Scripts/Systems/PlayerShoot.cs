@@ -22,12 +22,6 @@ public partial struct PlayerShoot : ISystem
     private float3 playerPos;
     private float3 ClosestEnemyPos;
     private float minDist;
-    [BurstCompile]
-    public void OnCreate(ref SystemState state)
-
-    {
-        
-    }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
